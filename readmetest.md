@@ -48,11 +48,11 @@ For less-advanced users we provide recommendations and more detailed [guide](#en
 ### Environment setup
 1. [Machine Setup](#1-machine-setup)
 2. [Running on Docker](#2-running-on-docker)
-3. [Repo and execution environment install](#3-repository-and-execution-environment-install)
+3. [Repository and execution environment install](#3-repository-and-execution-environment-install)
 4. [Dependencies](#4-dependencies)
    - [Python code](#python-code)
    - [Roles](#roles)
-5. [Inventory](#inventory)
+5. [Inventory](#5-inventory)
    - [Netbox](#netbox)
    - [YAML `vars/`](#yaml-vars)
 6. [Specific playbook READMEs](#6-specific-playbook-readmes)
