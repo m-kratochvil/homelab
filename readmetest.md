@@ -86,14 +86,11 @@ For others, we provide recommendations and more detailed [guide](#environment-se
 * python3-pip
 * libffi-dev
 
-_**Note:** We aim to run anisble on python3 as 2.7 is running out of support in 2020._
-
 On apt-based systems with recent repositories (such as ubuntu 18.04), these dependencies should be included in the standard sources and can be installed with:
 ```
 sudo apt-get install git make python3 wget python3-venv python3-dev python3-pip python3-setuptools virtualenv libffi-dev
 ```
-
-**Important:** If your system's default python3 interpreter (find with `python3 -V`) is anything below python 3.5, you must switch the systems default python3 interpreter or create the python virtual environment explicitly with the `python3.5` binary.
+**Important:** We aim to run anisble on python3 as 2.7 is running out of support in 2020. If your system's default python3 interpreter (find with `python3 -V`) is anything below python 3.5, you must switch the systems default python3 interpreter or create the python virtual environment explicitly with the `python3.5` binary.
 
 ### **2. Running on Docker**
 Having ansible go over a jumphost everytime did not prove to be reliable. We therefore built a docker container that is able to run ansible.
