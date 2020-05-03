@@ -52,6 +52,7 @@ For others, we provide recommendations and more detailed [guide](#environment-se
 | Windows | VMwareWS/Ubuntu19.10S | No major issues, sshuttle frequently disconnects |
 | Windows | Docker on WSL | Docker does not run on WSL as-is, no `systemd`, needs a Docker-on-Windows installed. See for example [this](https://medium.com/@callback.insanity/using-docker-with-windows-subsystem-for-linux-wsl-on-windows-10-d2deacad491f) guide. |
 | MAC | MACOS 10.15.5 | no major day-to-day issues, netconf related bug,<br>sshuttle not working over F5 Edge VPN |
+
 *Note: WSL2 has not been tested yet.*
 
 ## **Environment setup**
