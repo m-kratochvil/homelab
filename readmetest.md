@@ -48,7 +48,7 @@ For less-advanced users we provide recommendations and more detailed [guide](#en
 ### Environment setup
 1. [Machine Setup](#1-machine-setup)
 2. [Running on Docker](#2-running-on-docker)
-3. [Repo and execution environment install](#3-repo-and-execution-environment-install)
+3. [Repo and execution environment install](#3-repository-and-execution-environment-install)
 4. [Dependencies](#4-dependencies)
    - [Python code](#python-code)
    - [Roles](#roles)
