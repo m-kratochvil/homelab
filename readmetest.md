@@ -5,10 +5,11 @@ This is an internal SAP repository. Only members of the **CCloud-L4** and **cclo
 - **Branch protection, code reviews**
   - master branch is protected in this repository
   - code review is required to merge into the master branch
+  - be sure to request specific person(s) for review if your updating code owned by yourself
   - code owners are implemented
-- **Playbook credentials:**
-  - we use "per technical domain" vault files with “vault-id”
-  - all passwords must be vault-secured
+- **Credentials, secrets:**
+  - all passwords must be vault-encrypted
+  - any other sensitive data such as private keys must be vault-encrypted or not uploaded to the repository
 - **Playbook targets:**
   - It is mandatory to limit the targets in the playbooks to only the devices required 
   - this is enforced during PR code review
