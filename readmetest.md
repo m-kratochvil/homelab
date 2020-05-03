@@ -59,7 +59,7 @@ For less-advanced users we provide recommendations and more detailed [guide](#en
    - [Firewalling](#firewalling)
    - [Secrets](#secrets)
      - [**IMPORTANT!!!** RADIUS credentials:](#important-radius-credentials)
-     - [HOWTO add, encrypt and edit `secret.yml`](#howto-add-encrypt-and-edit-secret.yml)
+     - [HOWTO add, encrypt and edit `secret.yml`](#howto-add-encrypt-and-edit-secret-yml)
 7. [Using a local copy of the inventory to prevent long loading times](#7-using-a-local-copy-of-the-inventory-to-prevent-long-loading-times)
 8. [Known Issues](#8-known-issues)
 
