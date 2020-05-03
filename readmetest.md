@@ -19,10 +19,15 @@ This is an internal SAP repository. Only members of the **CCloud-L4** and **cclo
   - config-context is disabled for the time being
   - keep variable definitions short
 - **Use of branches:**
-  - long-running branches, like “devel_f5” or “dev/firewall” can be deleted only by the branch owner
-  - “patch” branches MUST be deleted after merging PR from such branch
+  - long-running development branches, such as `dev/firewall` can be deleted only by the branch owner
+  - “patch” type of branches should be deleted right after merging PR from such branch to master
 - **Files / Directories**
   - do not upload binary files to the repository. OS images, software packages etc. should be either kept locally or downloaded to the target device from cloud storage such as the CC Swift
+  - for the purpose of external storage for this repository, we have the `repo` Swift container available. Contents of this storage replicate to all CC regions moments after uploaded.  
+    - Container URL (for file management):  
+      `https://dashboard.<region>.cloud.sap/ccadmin/master/object-storage/containers/repo/list`
+    - Example URI to download a file from the `f5` directory, within a playbook task:  
+      `https://repo.qa-de-1.cloud.sap/f5/f5-appsvcs-3.18.0-4.noarch.rpm`
 - **Documentation:**
   - playbook are to be documented in the respective playbook directories
   - links to the playbook specific documentation to be added to the main readme.md (this one)
@@ -33,11 +38,11 @@ The repository environment can be installed on various platforms and systems. Th
 
 If you are advanced user, you can simply clone the repository to your preferred environment, make sure you have the [dependencies](#4-dependencies) installed and you should be good to go.
 
-For less-advanced users we provide recommendations and more detailed [guide](#environment-setup) below. 
+For others, we provide recommendations and more detailed [guide](#environment-setup) below. 
 
 ### Tested environments
 | Host platform | Guest platform | Notes / known issues, caveats |
-| - | - | - |
+| --- | --- | --- |
 | Windows | VMware/Ubuntu 19.04 | Works without issues, using sshuttle as proxy |
 | Windows | VMware/Ubuntu/Docker | Works without issues |
 | Windows | VMware/Ubuntu 18.04, 19.10 | sshuttle frequently disconnects |
@@ -61,7 +66,6 @@ For less-advanced users we provide recommendations and more detailed [guide](#en
      - [**IMPORTANT!!!** RADIUS credentials:](#important-radius-credentials)
      - [HOWTO add, encrypt and edit `secret.yml`](#howto-add-encrypt-and-edit-secretyml)
 7. [Using a local copy of the inventory to prevent long loading times](#7-using-a-local-copy-of-the-inventory-to-prevent-long-loading-times)
-8. [Known Issues](#8-known-issues)
 
 ### 1. Machine Setup
 We aim to run anisble on python3 as 2.7 is running out of support in 2020. Any *NIX system with the following components installed can run the repository code:
