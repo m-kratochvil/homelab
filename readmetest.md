@@ -1,29 +1,29 @@
 # Ansible for Converged Cloud network equipment
-This is an internal SAP repository. Only members of the CCloud-L4 and ccloud-net-admins teams are allowed to execute the playbooks, others, such as MSP staff are welcome to contribute but playbook execution is allowed only via the [CND AWX](https://awx-prod.netinfra.c.eu-de-1.cloud.sap/#/login).
+This is an internal SAP repository. Only members of the **CCloud-L4** and **ccloud-net-admins** teams are allowed to execute the code from the repository environment itself, others, such as MSP staff are welcome to contribute but code execution is allowed only through the [CND AWX](https://awx-prod.netinfra.c.eu-de-1.cloud.sap/#/login).
 
 ## **Repository rules and guidelines**
-- Branch protection, code reviews
+- **Branch protection, code reviews**
   - master branch is protected in this repository
   - code review is required to merge into the master branch
   - code owners are implemented
-- Playbook credentials:
+- **Playbook credentials:**
   - we use "per technical domain" vault files with “vault-id”
   - all passwords must be vault-secured
-- Playbook targets:
+- **Playbook targets:**
   - It is mandatory to limit the targets in the playbooks to only the devices required 
   - this is enforced during PR code review
   - reviewer makes sure playbook does not contain `hosts: all` or similar dangerous setting that would target unintended devices
-- Use of variables (inventory file, host/group vars, separate var files, CLI, Netbox config-context...):
+- **Use of variables (inventory file, host/group vars, separate var files, CLI, Netbox config-context...):**
   - use of shared variables is strongly recommended
   - until further notice, we let everyone use/call variables as they wish
   - config-context is disabled for the time being
   - keep variable definitions short
-- Use of branches:
+- **Use of branches:**
   - long-running branches, like “devel_f5” or “dev/firewall” can be deleted only by the branch owner
   - “patch” branches MUST be deleted after merging PR from such branch
-- Files / Directories
+- **Files / Directories**
   - do not upload binary files to the repository. OS images, software packages etc. should be either kept locally or downloaded to the target device from cloud storage such as the CC Swift
-- Documentation:
+- **Documentation:**
   - playbook are to be documented in the respective playbook directories
   - links to the playbook specific documentation to be added to the main readme.md (this one)
   - the main “readme.md” to be updated by everyone as needed, pending code review
@@ -56,9 +56,9 @@ For less-advanced users we provide recommendations and more detailed [guide](#en
    - [Netbox](#netbox)
    - [YAML `vars/`](#yaml-vars)
 6. [Specific playbook READMEs](#6-specific-playbook-readmes)
-   - [firewalling](#firewalling)
+   - [Firewalling](#firewalling)
    - [Secrets](#secrets)
-     - [**IMPORTANT!!!** RADIUS credentials:](#important!!!-radius-credentials)
+     - [**IMPORTANT!!!** RADIUS credentials:](#important-radius-credentials)
      - [HOWTO add, encrypt and edit `secret.yml`](#howto-add-encrypt-and-edit-secret.yml)
 7. [Using a local copy of the inventory to prevent long loading times](#7-using-a-local-copy-of-the-inventory-to-prevent-long-loading-times)
 8. [Known Issues](#8-known-issues)
