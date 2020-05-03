@@ -28,6 +28,7 @@ This is an internal SAP repository. Only members of the **CCloud-L4** and **cclo
       `https://dashboard.<region>.cloud.sap/ccadmin/master/object-storage/containers/repo/list`
     - Example URI to download a file from the `f5` directory, within a playbook task:  
       `https://repo.qa-de-1.cloud.sap/f5/f5-appsvcs-3.18.0-4.noarch.rpm`
+    - Beware the Swift capacity is limited, do not use it for purposes other than this repository external storage
 - **Documentation:**
   - playbook are to be documented in the respective playbook directories
   - links to the playbook specific documentation to be added to the main readme.md (this one)
@@ -40,7 +41,8 @@ If you are advanced user, you can simply clone the repository to your preferred 
 
 For others, we provide recommendations and more detailed [guide](#environment-setup) below. 
 
-### Tested environments
+### **Tested environments**
+
 | Host platform | Guest platform | Notes / known issues, caveats |
 | --- | --- | --- |
 | Windows | VMware/Ubuntu 19.04 | Works without issues, using sshuttle as proxy |
@@ -50,7 +52,7 @@ For others, we provide recommendations and more detailed [guide](#environment-se
 | Windows       | Docker on WSL | Docker does not run on WSL as-is, need a Docker on Windows installed<br>See [this](https://medium.com/@callback.insanity/using-docker-with-windows-subsystem-for-linux-wsl-on-windows-10-d2deacad491f) guide. |
 | MAC | MAC OS | sshuttle not working over the F5 Edge VPN |
 
-### Environment setup
+## **Environment setup**
 1. [Machine Setup](#1-machine-setup)
 2. [Running on Docker](#2-running-on-docker)
 3. [Repository and execution environment install](#3-repository-and-execution-environment-install)
