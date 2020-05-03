@@ -1,7 +1,7 @@
 # Ansible for Converged Cloud network equipment
 This is an internal SAP repository. Only members of the **CCloud-L4** and **ccloud-net-admins** teams are allowed to execute the code from the repository environment itself, others, such as MSP staff are welcome to contribute but code execution is allowed only through the [CND AWX](https://awx-prod.netinfra.c.eu-de-1.cloud.sap/#/login).
 
-## **Repository rules and guidelines**
+>## **Repository rules and guidelines**
 - **Branch protection, code reviews**
   - master branch is protected in this repository
   - code review is required to merge into the master branch
@@ -45,12 +45,13 @@ For others, we provide recommendations and more detailed [guide](#environment-se
 
 | Host platform | Guest platform | Notes / known issues, caveats |
 | --- | --- | --- |
-| Windows | VMware/Ubuntu 19.04 | Works without issues, using sshuttle as proxy |
-| Windows | VMware/Ubuntu/Docker | Works without issues |
-| Windows | VMware/Ubuntu 18.04, 19.10 | sshuttle frequently disconnects |
-| Windows | WSL Ubuntu 18.X, 20.X | sshuttle not working, proxycommand used instead, some limitations reported,<br>e.g. some devices unreachable, some vendor modules not working |
-| Windows       | Docker on WSL | Docker does not run on WSL as-is, need a Docker on Windows installed<br>See [this](https://medium.com/@callback.insanity/using-docker-with-windows-subsystem-for-linux-wsl-on-windows-10-d2deacad491f) guide. |
-| MAC | MAC OS | sshuttle not working over the F5 Edge VPN |
+| Windows | WSL/Ubuntu 18.X, 20.X | Arguably the easiest setup, no major issues using proxycommand, sshuttle not working, some limitations reported with APIC reachability and some F5 vendor modules |
+| Windows | VMwareWS/Ubuntu19.04C | Works without known issues (w/sshuttle as proxy) |
+| Windows | VMwareWS/Ubuntu/Docker | Works without known issues |
+| Windows | VMwareWS/Ubuntu19.10S | No major issues, sshuttle frequently disconnects |
+| Windows | Docker on WSL | Docker does not run on WSL as-is, no `systemd`, needs a Docker-on-Windows installed. See for example [this](https://medium.com/@callback.insanity/using-docker-with-windows-subsystem-for-linux-wsl-on-windows-10-d2deacad491f) guide. |
+| MAC | MACOS 10.15.5 | no major day-to-day issues, netconf related bug,<br>sshuttle not working over F5 Edge VPN |
+*Note: WSL2 has not been tested yet.*
 
 ## **Environment setup**
 1. [Machine Setup](#1-machine-setup)
@@ -68,9 +69,10 @@ For others, we provide recommendations and more detailed [guide](#environment-se
      - [**IMPORTANT!!!** RADIUS credentials:](#important-radius-credentials)
      - [HOWTO add, encrypt and edit `secret.yml`](#howto-add-encrypt-and-edit-secretyml)
 7. [Using a local copy of the inventory to prevent long loading times](#7-using-a-local-copy-of-the-inventory-to-prevent-long-loading-times)
+8. [Known issues](#8-known-issues)
 
-### 1. Machine Setup
-We aim to run anisble on python3 as 2.7 is running out of support in 2020. Any *NIX system with the following components installed can run the repository code:
+### **1. Machine Setup**
+**Pre-requisites** - any *NIX system with the following components installed can run the repository code:
 * git
 * make
 * python3.5 or higher
@@ -82,19 +84,21 @@ We aim to run anisble on python3 as 2.7 is running out of support in 2020. Any *
 * python3-pip
 * libffi-dev
 
+_**Note:** We aim to run anisble on python3 as 2.7 is running out of support in 2020._
+
 On apt-based systems with recent repositories (such as ubuntu 18.04), these dependencies should be included in the standard sources and can be installed with:
 ```
 sudo apt-get install git make python3 wget python3-venv python3-dev python3-pip python3-setuptools virtualenv libffi-dev
 ```
 
-**Important:** If your systems default python3 interpreter (find with `python3 -V`) is anything below python 3.5, you must switch the systems default python3 interpreter or create the python virtual environment explicitly with the `python3.5` binary.
+**Important:** If your system's default python3 interpreter (find with `python3 -V`) is anything below python 3.5, you must switch the systems default python3 interpreter or create the python virtual environment explicitly with the `python3.5` binary.
 
-### 2. Running on Docker
+### **2. Running on Docker**
 Having ansible go over a jumphost everytime did not prove to be reliable. We therefore built a docker container that is able to run ansible.
 
 After you clone the repository, start the container executing `./start-docker.sh`. It will automatically mount the ccloud-net directory into `/ccloud-net` of the docker container. The script asks you for the user to use for authentication against ssh endpoints. If you have the need to tunnel all traffic, through a jumphost, use `sshuttle-eu` which will use `jump01.cc.eu-de-1.cloud.sap` as tunnel host.
 
-### 3. Repository and execution environment install
+### **3. Repository and execution environment install**
 Clone this repo using ssh (if ssh key or ssh-agent forwarding present) or alternitvely https
 ```bash
 git clone https://github.wdf.sap.corp/Infrastructure-Automation/ccloud-net.git
@@ -114,7 +118,7 @@ Ansible will not touch the global python interpreter, it will only reside in the
 source venv/bin/activate
 ```
 
-### 4. Dependencies
+### **4. Dependencies**
 Ansible has dependencies towards python code and also ansible roles expressed in YAML.
 
   - #### Python code
@@ -151,7 +155,7 @@ Ansible has dependencies towards python code and also ansible roles expressed in
 
     Roles that are tightly coupled to CCloud equipment should reside in this repo, roles that are universal and can be used for a broader set of devices or are likely to be imported in a variety of playbooks should reside in a seperate repo. There is already a decent selection of ansible roles in the [NetInfra GitHub](https://github.wdf.sap.corp/NetInfra?utf8=✓&q=role_&type=&language=).
 
-### 5. Inventory
+### **5. Inventory**
   - ####  Netbox
     Basic host information will be sourced from netbox. Connection and query parameters are set in `inventories/000_netbox.yaml`. Adjust the query filters to include your device role, but keep them lean as the inventory build-up can take a bit. *Make sure to filter the hosts you are applying a playbook to in the playbook itself.*
     You can run a `ansible-inventory --list` to have a look on the inventory contents and structure.
@@ -184,35 +188,26 @@ Ansible has dependencies towards python code and also ansible roles expressed in
 
     **All variable paths are relative to the playbooks location**
 
-### 6. Specific playbook READMEs
+### **6. Specific playbook READMEs**
 
   - ### Firewalling
+    - General  
+    https://github.wdf.sap.corp/Infrastructure-Automation/ccloud-net/blob/dev/firewall/playbooks/firewalling/README.md
 
-    - General
+    - Firepower  
+    https://github.wdf.sap.corp/Infrastructure-Automation/ccloud-net/blob/master/playbooks/firewalling/firepower/README.md
 
-      https://github.wdf.sap.corp/Infrastructure-Automation/ccloud-net/blob/dev/firewall/playbooks/firewalling/README.md
+    - ASA multi context  
+    https://github.wdf.sap.corp/Infrastructure-Automation/ccloud-net/blob/master/playbooks/firewalling/multi-context/README.md
 
-    - Firepower
-
-      https://github.wdf.sap.corp/Infrastructure-Automation/ccloud-net/blob/master/playbooks/firewalling/firepower/README.md
-
-    - ASA multi context
-
-      https://github.wdf.sap.corp/Infrastructure-Automation/ccloud-net/blob/master/playbooks/firewalling/multi-context/README.md
-
-    - ASA single context
-
-      https://github.wdf.sap.corp/Infrastructure-Automation/ccloud-net/blob/master/playbooks/firewalling/single-context/README.md
-
+    - ASA single context  
+    https://github.wdf.sap.corp/Infrastructure-Automation/ccloud-net/blob/master/playbooks/firewalling/single-context/README.md
 
   - ### Secrets
-
     - #### **IMPORTANT!!!** RADIUS credentials:
-
       RADIUS credentials Key **must** be added to`/vars/secret.yml`:
 
     - #### HOWTO add, encrypt and edit `secret.yml`
-
       1. Add file (with the following relative path if you are in cc-cloud-net directory)
           ```
           touch vars/secret.yml
@@ -222,24 +217,20 @@ Ansible has dependencies towards python code and also ansible roles expressed in
           ```
           ansible-vault encrypt vars/secret.yml
           ```
-
           `vars/secret.yml` is now encrypted
 
       3.  Edit file:
-
            ```
            ansible-vault edit vars/secret.yml
            ```
 
       4. Format:
-
           ```yaml
           ---
           radius_username: [your-username]
           radius_password: [your-radiuspassword]
           ```
-### 7. Using a local copy of the inventory to prevent long loading times
-
+### **7. Using a local copy of the inventory to prevent long loading times**
   1. Generate a local copy of the inventory
       ```
       ansible-inventory -y --list > inventories/000_local_copy.yaml
@@ -255,3 +246,6 @@ Ansible has dependencies towards python code and also ansible roles expressed in
       cache=false
       ```
   3. Do not commit your locally changed `ansible.cfg`!
+
+### **8. Known issues**
+- The Netbox dynamic inventory plugin delivers Netbox group and role names containing spaces or dashes. These are considered invalid characters and thus cannot be referenced in playbooks. Since ansible 2.8, `force_valid_group_names` configuration option is available. If this is enabled, the inventory fails. We added a workaround for this to the inventory plugin code, replacing the invalid characters with '_' (underscore).
