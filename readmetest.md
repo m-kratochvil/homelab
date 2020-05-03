@@ -31,14 +31,14 @@ This is an internal SAP repository. Only members of the **CCloud-L4** and **cclo
       `https://repo.qa-de-1.cloud.sap/f5/f5-appsvcs-3.18.0-4.noarch.rpm`
     - Beware the Swift capacity is limited, do not use it for purposes other than this repository external storage
 - **Documentation:**
-  - playbook are to be documented in the respective playbook directories
-  - links to the playbook specific documentation to be added to the main readme.md (this one)
-  - the main “readme.md” to be updated by everyone as needed, pending code review
+  - playbooks are to be documented in the respective playbook directories
+  - links to the playbook specific documentation to be added to this main readme.md
+  - this main “readme.md” documentation to be updated by everyone as needed, pending code review
 
 ### **Environment notes and recommendations**
 The repository environment can be installed on various platforms and systems. The choice is up to you, the end user, but we do provide some general guidelines and recommendations below. Please note that we have no means to engage in detailed troubleshooting of platform related issues. Search engine is your friend.
 
-If you are advanced user, you can simply clone the repository to your preferred environment, make sure you have the [dependencies](#4-dependencies) installed and you should be good to go.
+If you are advanced user, make sure your preferred environment conforms to the [pre-requisites](#1-machine-setup), clone the repository, make sure you have the required [dependencies](#4-dependencies) (listed in the `requirements.txt` file) installed and you should be good to go.
 
 For others, we provide recommendations and more detailed [guide](#environment-setup) below. 
 
