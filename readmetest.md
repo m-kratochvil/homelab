@@ -119,16 +119,15 @@ Ansible has dependencies towards python code and also ansible roles expressed in
 
   - #### Python code
     Dependencies to python code, e.g. ansible modules written in python, reside in the `plugins` folder. Ansible modules that require native python modules must register the dependency in the `requirements.txt` file in this repo's root directory. Python imports should include the minimum required code version, e.g.:
-```
-ansible>=2.7          <-- requires ansible 2.7 or later
-pyIOSXR==0.6.44       <-- requires exactly this version
-```
+    ```
+    ansible>=2.7          <-- requires ansible 2.7 or later
+    pyIOSXR==0.6.44       <-- requires exactly this version
+    ```
 
-To update dependencies run
-```
-make update
-```
-
+    To update dependencies run
+    ```
+    make update
+    ```
   - #### Roles
     Roles can either be
     1. hard-copied in this repo or (residing in `roles/`),
