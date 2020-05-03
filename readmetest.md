@@ -35,7 +35,7 @@ This is an internal SAP repository. Only members of the **CCloud-L4** and **cclo
   - links to the playbook specific documentation to be added to this main readme.md
   - this main “readme.md” documentation to be updated by everyone as needed, pending code review
 
-### **Environment notes and recommendations**
+## **Environment notes and recommendations**
 The repository environment can be installed on various platforms and systems. The choice is up to you, the end user, but we do provide some general guidelines and recommendations below. Please note that we have no means to engage in detailed troubleshooting of platform related issues. Search engine is your friend.
 
 If you are advanced user, make sure your preferred environment conforms to the [pre-requisites](#1-machine-setup), clone the repository, make sure you have the required [dependencies](#4-dependencies) (listed in the `requirements.txt` file) installed and you should be good to go.
@@ -93,12 +93,15 @@ sudo apt-get install git make python3 wget python3-venv python3-dev python3-pip 
 **Important:** We aim to run anisble on python3 as 2.7 is running out of support in 2020. If your system's default python3 interpreter (find with `python3 -V`) is anything below python 3.5, you must switch the systems default python3 interpreter or create the python virtual environment explicitly with the `python3.5` binary.
 
 ### **2. Running on Docker**
-Having ansible go over a jumphost everytime did not prove to be reliable. We therefore built a docker container that is able to run ansible.
+We provide an option to install this repository into a pre-made Docker container that can run Ansible.  
+The two main benefits of the Docker option are:
+- more reliable when the Docker container is deployed in an environment with direct connectivity to the target devices, without the need to cross a jumphost
+- ease of installation on systems with Docker already installed. All pre-requisites and dependencies are already built into the container
 
 After you clone the repository, start the container executing `./start-docker.sh`. It will automatically mount the ccloud-net directory into `/ccloud-net` of the docker container. The script asks you for the user to use for authentication against ssh endpoints. If you have the need to tunnel all traffic, through a jumphost, use `sshuttle-eu` which will use `jump01.cc.eu-de-1.cloud.sap` as tunnel host.
 
 ### **3. Repository and execution environment install**
-Clone this repo using ssh (if ssh key or ssh-agent forwarding present) or alternitvely https
+Clone this repo using ssh (if ssh key or ssh-agent forwarding present) or alternitvely https:
 ```bash
 git clone https://github.wdf.sap.corp/Infrastructure-Automation/ccloud-net.git
 #or
@@ -112,8 +115,8 @@ make install
 ```
 This will create a python virtual environment, install ansible and all python modules and external roles.
 
-Ansible will not touch the global python interpreter, it will only reside in the virtual environment (venv). Thus this venv has to be activated before executing ansible. This can be achieved by executing
-```
+Ansible will not touch the global python interpreter, it will only reside in the virtual environment (venv). Thus this venv has to be activated before executing ansible. This can be achieved by executing:
+```bash
 source venv/bin/activate
 ```
 
@@ -128,7 +131,7 @@ Ansible has dependencies towards python code and also ansible roles expressed in
     ```
 
     To update dependencies run
-    ```
+    ```bash
     make update
     ```
   - #### Roles
@@ -208,7 +211,7 @@ Ansible has dependencies towards python code and also ansible roles expressed in
 
     - #### HOWTO add, encrypt and edit `secret.yml`
       1. Add file (with the following relative path if you are in cc-cloud-net directory)
-          ```
+          ```bash
           touch vars/secret.yml
           ```
 
